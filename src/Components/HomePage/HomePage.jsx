@@ -1,10 +1,11 @@
 import React from 'react';
+import MyNavbar from '../MyNavbar/MyNavbar';
 import "./HomePage.scss"
 
 const HomePage = () => {
     return (
-        <div className="">
-            <h1>Finca El Campo</h1>
+        <div className="HomePage">
+            <MyNavbar />
         </div>
     );
 };
