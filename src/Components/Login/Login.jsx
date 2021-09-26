@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { Form, Button, Row, Col } from "react-bootstrap"
+import "./Login.scss"
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -27,7 +29,47 @@ export default function Login() {
   };
 
   return (
-    <div className="Login">
+    <Row className="justify-content-center">
+      <Col sm={8} lg={6} xxl={4}>
+        <div className="Login">
+          {error && <p>There was an error: {error}</p>}
+          <Form  onSubmit={doLogin}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control 
+              name="email"
+              value={credentials.email}
+              onChange={onChange} 
+              type="email" 
+              placeholder="Enter email" />
+              <Form.Text className="text-muted">
+                No compartiremos tu correo con nadie.
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Contraseña</Form.Label>
+              <Form.Control 
+              type="password" 
+              placeholder="Contraseña"
+              name="password"
+              value={credentials.password}
+              onChange={onChange} 
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Iniciar Sesión
+            </Button>
+          </Form>
+          <br />
+          <Link to="/signup">¿Todavía no tienes cuenta? <br/> ¡Regístrate!</Link>
+      </div>
+    </Col>
+  </Row>
+  );
+}
+
+{/* <div className="Login">
       {error && <p>There was an error: {error}</p>}
       <form onSubmit={doLogin}>
         <label htmlFor="email">Email</label>
@@ -49,6 +91,4 @@ export default function Login() {
       </form>
       <br />
       <Link to="/signup">Don't have an account yet? Sign up here</Link>
-    </div>
-  );
-}
+    </div> */}
