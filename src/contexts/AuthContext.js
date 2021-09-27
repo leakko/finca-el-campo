@@ -15,6 +15,7 @@ export const AuthContext = React.createContext({
 export default function AuthContextProvider({ children }) {
   const [token, setToken] = useState(getAccessToken());
   const [user, setUser] = useState();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // if there's a token
@@ -24,7 +25,10 @@ export default function AuthContextProvider({ children }) {
         // GET user
         getCurrentUser()
           // if OK, setUser
-          .then((user) => setUser(user))
+          .then((user) => {
+            setError(null)
+            setUser(user)
+          })
           .catch(() => {
             // if NOK, delete token from state AND storage
             deleteAccessToken();
@@ -40,10 +44,7 @@ export default function AuthContextProvider({ children }) {
   }, [token, user]);
 
   const loginFn = (email, password) => {
-    return login(email, password).then((response) => {
-      setAccessToken(response.access_token);
-      setToken(response.access_token);
-    });
+    return login(email, password)
   };
 
   const logout = () => {
@@ -52,6 +53,6 @@ export default function AuthContextProvider({ children }) {
     setUser(undefined);
   }
 
-  const value = { user: user, token: token, login: loginFn, logout };
+  const value = { user: user, token: token, login: loginFn, logout, error: error, setError: setError, setAccessToken: setAccessToken, setToken: setToken };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
