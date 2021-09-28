@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from "../../hooks/useAuth";
+import { useHistory} from "react-router-dom";
 import { getAccessToken } from '../../store/AccessTokenStore';
 
 const MyProfile = () => {
-
+    const { replace } = useHistory();
     const { setUser, user } = useAuth()
     const token = getAccessToken();
 
     if(!token) {
         setUser(undefined)
     }
+
+    useEffect(() => {
+        if(!user) {
+            replace("/")
+        }
+    }, [user, replace])
 
     const userProfile = () => {
         if(user) {
