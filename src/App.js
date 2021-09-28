@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom"
 import MyNavbar from './Components/MyNavbar/MyNavbar';
 import Login from "./Components/Login/Login";
 import Register from './Components/Register/Register';
+import MyProfile from './Components/MyProfile/MyProfile';
 import "bootstrap/dist/css/bootstrap.min.css"
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
+        <Route path="/myprofile" component={MyProfile}/>
       </Switch>
     </div>
   );

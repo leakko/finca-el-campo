@@ -35,12 +35,11 @@ export default function AuthContextProvider({ children }) {
             setToken(undefined);
           });
       }
+    // if no token
+    // delete user
     } else {
       setUser(undefined);
     }
-
-    // if no token
-    // delete user
   }, [token, user]);
 
   const loginFn = (email, password) => {
@@ -53,6 +52,6 @@ export default function AuthContextProvider({ children }) {
     setUser(undefined);
   }
 
-  const value = { user: user, token: token, login: loginFn, logout, error: error, setError: setError, setAccessToken: setAccessToken, setToken: setToken };
+  const value = { user: user, setUser: setUser, token: token, login: loginFn, logout, error: error, setError: setError, setAccessToken: setAccessToken, setToken: setToken };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

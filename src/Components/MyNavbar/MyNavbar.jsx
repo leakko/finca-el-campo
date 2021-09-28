@@ -1,11 +1,14 @@
 import React from 'react';
-import { Nav, Navbar, Container } from "react-bootstrap"
+import { Nav, Navbar, Container, Button } from "react-bootstrap"
 import { Link,  NavLink } from "react-router-dom"
+import { useAuth } from "../../hooks/useAuth";
 import "./MyNavbar.scss";
 import mainLogo from "../../Assets/logo192.png"
 
 
 const MyNavbar = () => {
+    const { user, logout } = useAuth();
+
     return (
         <Navbar className="Navbar" bg="dark" variant="dark" sticky="top" expand="sm" collapseOnSelect>
             <Container>
@@ -16,17 +19,29 @@ const MyNavbar = () => {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <NavLink className="nav-link" exact to="/">
-                            Home
-                        </NavLink>
-                        <NavLink className="nav-link" to="/login">
-                            Inicia Sesión
-                        </NavLink>
-                        <NavLink className="nav-link" to="/register">
-                            Regístrate
-                        </NavLink>
-                    </Nav>
+                    {user ?
+                        <Nav className="me-auto">
+                            <NavLink className="nav-link" exact to="/">
+                                Home
+                            </NavLink>
+                            <NavLink className="nav-link" to="/myprofile">
+                                Mi perfil
+                            </NavLink>
+                            <Button onClick={() => logout()} variant="danger">Cierra sesión</Button>
+                        </Nav>
+                        :
+                        <Nav className="me-auto">
+                            <NavLink className="nav-link" exact to="/">
+                                Home
+                            </NavLink>
+                            <NavLink className="nav-link" to="/login">
+                                Inicia Sesión
+                            </NavLink>
+                            <NavLink className="nav-link" to="/register">
+                                Regístrate
+                            </NavLink>
+                        </Nav>
+                    } 
                 </Navbar.Collapse>
             </Container>
         </Navbar>
