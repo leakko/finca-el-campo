@@ -3,9 +3,10 @@ import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import React, { useState, useEffect} from "react";
-import { Button } from "react-bootstrap"
+import { Button, Alert } from "react-bootstrap"
+import { useAuth } from "../../hooks/useAuth";
 import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
-import { getCelebrations } from "../../services/CelebrationsService"
+import { getCelebrations, createCelebration } from "../../services/CelebrationsService"
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -23,6 +24,8 @@ const localizer = dateFnsLocalizer({
 });
 
 const MyCalendar = () => {
+    const { user } = useAuth();
+
     const [newEvent, setNewEvent] = useState({
         title: "Ocupado",
         allDay: true,
@@ -30,15 +33,22 @@ const MyCalendar = () => {
         end: ""
     });
     const [allEvents, setAllEvents] = useState();
+    const [error, setError] = useState(undefined);
 
     function handleAddEvent() {
-        setAllEvents([...allEvents, newEvent]);
-        setNewEvent({
-            title: "Ocupado",
-            allDay: true,
-            start: "",
-            end: ""
-        })
+        createCelebration({date: newEvent.start, client: user? user._id : undefined}).
+        then((response) => {
+            if(response.errorMessage) {
+                setError(response.errorMessage)
+            } else {
+                setNewEvent({
+                    title: "Ocupado",
+                    allDay: true,
+                    start: "",
+                    end: ""
+                })
+            }
+        })  
     }
 
     useEffect(() => {
@@ -62,8 +72,9 @@ const MyCalendar = () => {
             <div>
                 <DatePicker placeholderText="Selecciona tu fecha" style={{ marginRight: "10px" }} selected={newEvent.start} onChange={(date) => setNewEvent({ ...newEvent, start: date, end: date })} />
                 <Button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
-                    Add Event
+                    Reservar
                 </Button>
+                {error && <Alert variant="danger">{error}</Alert>}
             </div>
             <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" views={{ month: true}} style={{ height: 500, margin: "50px" }} />
         </div>
