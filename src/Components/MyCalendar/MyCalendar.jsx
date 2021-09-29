@@ -2,8 +2,10 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
+import { Button } from "react-bootstrap"
 import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
+import { getCelebrations } from "../../services/CelebrationsService"
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,43 +22,48 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-const events = [
-    {
-        title: "Big Meeting",
-        allDay: true,
-        start: new Date(2021, 8, 1),
-        end: new Date(2021, 8, 1),
-    },
-    {
-        title: "Vacation",
-        start: new Date(2021, 8, 7),
-        end: new Date(2021, 8, 10),
-    },
-    {
-        title: "Conference",
-        start: new Date(2021, 8, 20),
-        end: new Date(2021, 8, 23),
-    },
-];
-
 const MyCalendar = () => {
-    const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
-    const [allEvents, setAllEvents] = useState(events);
+    const [newEvent, setNewEvent] = useState({
+        title: "Ocupado",
+        allDay: true,
+        start: "",
+        end: ""
+    });
+    const [allEvents, setAllEvents] = useState();
 
     function handleAddEvent() {
         setAllEvents([...allEvents, newEvent]);
+        setNewEvent({
+            title: "Ocupado",
+            allDay: true,
+            start: "",
+            end: ""
+        })
     }
+
+    useEffect(() => {
+        getCelebrations()
+        .then((celebrations) => {
+            const mappedCelebrations = celebrations.map((celebration) => {
+                return ({
+                    title: "Ocupado",
+                    allDay: true,
+                    start: celebration.date,
+                    end: celebration.date
+                })
+            })
+            setAllEvents(mappedCelebrations)
+        })
+    }, [newEvent])
 
     return (
         <div className="MyCalendar">
             <h2>Add New Event</h2>
             <div>
-                <input type="text" placeholder="Add Title" style={{ width: "20%", marginRight: "10px" }} value={newEvent.title} onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
-                <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newEvent.start} onChange={(start) => setNewEvent({ ...newEvent, start })} />
-                <DatePicker placeholderText="End Date" selected={newEvent.end} onChange={(end) => setNewEvent({ ...newEvent, end })} />
-                <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
+                <DatePicker placeholderText="Selecciona tu fecha" style={{ marginRight: "10px" }} selected={newEvent.start} onChange={(date) => setNewEvent({ ...newEvent, start: date, end: date })} />
+                <Button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
                     Add Event
-                </button>
+                </Button>
             </div>
             <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" views={{ month: true}} style={{ height: 500, margin: "50px" }} />
         </div>
