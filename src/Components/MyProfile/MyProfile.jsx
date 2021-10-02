@@ -10,10 +10,12 @@ const MyProfile = () => {
         setUser(undefined)
     }
 
-    const userProfile = () => {
-        if(user) {
-            return (
-                <>
+    return (
+        <div className="MyProfile">
+            {user ?
+            <>
+                <h1>Tus datos</h1>
+                <div>
                     <h2>Correo</h2>
                     <p>{user.email}</p>
                     {user.fullName ?
@@ -40,26 +42,24 @@ const MyProfile = () => {
                         <>
                         </>
                     }
-                </>
-            )
-        } else {
-            return <h1>Inicia sesión para acceder a tu perfil</h1>
-        }
-    } 
-
-    return (
-        <div className="MyProfile">
-            <h1>Tus datos</h1>
-            {userProfile()}
-            <h1>Tus celebraciones</h1>
-            {userCelebrations ? 
-                userCelebrations.map((celebration) => {
-                    return (
-                        <p>{celebration.date}</p>
-                    )
-                }) :
-                <p>No tienes celebraciones todavía</p>
+                </div>
+                <div>
+                <h1>Tus celebraciones</h1>
+                    {userCelebrations ? 
+                        userCelebrations.map((celebration) => {
+                            return (
+                                <>
+                                    <p>{celebration.date}</p>
+                                </>
+                            )
+                        }) :
+                        <p>No tienes celebraciones todavía</p>
+                    }
+                </div>
+            </> :
+                <h2>Inicia sesión para acceder a tu perfil</h2>
             }
+            
         </div>
     );
 };
