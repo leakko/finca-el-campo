@@ -9,3 +9,7 @@ export const getCelebrations = () => {
 export const createCelebration = (celebrationData) => {
     return http.post("/celebrations", celebrationData)
 }
+
+export const getUserCelebrations = (userId) => {
+  return http.get(`/celebrations/${userId}`);
+};
