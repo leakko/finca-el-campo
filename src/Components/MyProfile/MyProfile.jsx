@@ -1,5 +1,8 @@
 import { useAuth } from "../../hooks/useAuth";
 import { getAccessToken } from '../../store/AccessTokenStore';
+import { dateParser } from "../../variousFunctions/parseDate";
+import celebrationImg from "../../Assets/celebration.jpg"
+import { Card, Button } from "react-bootstrap";
 
 const MyProfile = () => {
     const { setUser, user, userCelebrations } = useAuth()
@@ -9,6 +12,7 @@ const MyProfile = () => {
     if(!token) {
         setUser(undefined)
     }
+
 
     return (
         <div className="MyProfile">
@@ -43,23 +47,36 @@ const MyProfile = () => {
                         </>
                     }
                 </div>
-                <div>
-                <h1>Tus celebraciones</h1>
-                    {userCelebrations ? 
-                        userCelebrations.map((celebration) => {
-                            return (
-                                <>
-                                    <p>{celebration.date}</p>
-                                </>
-                            )
-                        }) :
-                        <p>No tienes celebraciones todavía</p>
-                    }
+                <div className="d-flex flex-column align-items-center container">
+                    <div className="row">
+                        <h1>Tus celebraciones</h1>
+                            {userCelebrations ? 
+                                userCelebrations.map((celebration) => {
+                                    let newDate = new Date(celebration.date)
+                                    return (
+                                        <div key={celebration._id} className="col">
+                                            <Card style={{ width: '18rem' }}>
+                                            <Card.Img variant="top" src={celebrationImg} />
+                                            <Card.Body>
+                                                <Card.Title>{dateParser(newDate)}</Card.Title>
+                                                <Card.Text>
+                                                    Esta es la fecha de la celebración que tienes reservada con nosotros
+                                                </Card.Text>
+                                                <Button variant="primary">Ver detalles</Button>
+                                            </Card.Body>
+                                            </Card>
+                                        </div>
+                                    )
+                                }) :
+                                <p>No tienes celebraciones todavía</p>
+                            }
+                    </div>
                 </div>
             </> :
                 <h2>Inicia sesión para acceder a tu perfil</h2>
             }
             
+            <p style={{fontSize: "0.8rem"}}><a href='https://www.freepik.es/vectores/banner'>Vector de Banner creado por pch.vector - www.freepik.es</a></p>
         </div>
     );
 };
