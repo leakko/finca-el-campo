@@ -5,7 +5,7 @@ import startOfWeek from "date-fns/startOfWeek";
 import React, { useState, useEffect} from "react";
 import { Button, Alert } from "react-bootstrap"
 import { useAuth } from "../../hooks/useAuth";
-import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer} from "react-big-calendar";
 import { getCelebrations, createCelebration } from "../../services/CelebrationsService"
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
@@ -36,8 +36,8 @@ const MyCalendar = () => {
     const [error, setError] = useState(undefined);
 
     function handleAddEvent() {
-        createCelebration({date: newEvent.start, client: user? user._id : undefined}).
-        then((response) => {
+        createCelebration({date: newEvent.start, client: user? user._id : undefined})
+        .then((response) => {
             if(response.errorMessage) {
                 setError(response.errorMessage)
             } else {
