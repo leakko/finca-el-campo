@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { login } from "../services/AuthService";
 import { getCurrentUser } from "../services/UserService";
+import { getUserCelebrations } from "../services/CelebrationsService"
 import {
   deleteAccessToken,
   getAccessToken,
@@ -16,6 +17,7 @@ export default function AuthContextProvider({ children }) {
   const [token, setToken] = useState(getAccessToken());
   const [user, setUser] = useState();
   const [error, setError] = useState(null);
+  const [userCelebrations, setUserCelebrations] = useState()
 
   useEffect(() => {
     // if there's a token
@@ -28,6 +30,10 @@ export default function AuthContextProvider({ children }) {
           .then((user) => {
             setError(null)
             setUser(user)
+            getUserCelebrations(user._id)
+              .then((userCelebrations) => {
+              setUserCelebrations(userCelebrations)
+            })
           })
           .catch(() => {
             // if NOK, delete token from state AND storage
@@ -39,6 +45,7 @@ export default function AuthContextProvider({ children }) {
     // delete user
     } else {
       setUser(undefined);
+      setUserCelebrations(undefined)
     }
   }, [token, user]);
 
@@ -50,8 +57,9 @@ export default function AuthContextProvider({ children }) {
     deleteAccessToken();
     setToken(undefined);
     setUser(undefined);
+    setUserCelebrations(undefined)
   }
 
-  const value = { user: user, setUser: setUser, token: token, login: loginFn, logout, error: error, setError: setError, setAccessToken: setAccessToken, setToken: setToken };
+  const value = { user, setUser, token, login: loginFn, logout, error, setError, setAccessToken, setToken, userCelebrations };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

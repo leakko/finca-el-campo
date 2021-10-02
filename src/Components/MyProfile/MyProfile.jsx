@@ -1,33 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import { useAuth } from "../../hooks/useAuth";
-import { useHistory} from "react-router-dom";
 import { getAccessToken } from '../../store/AccessTokenStore';
-import { getUserCelebrations } from "../../services/CelebrationsService"
 
 const MyProfile = () => {
-    const { replace } = useHistory();
-    const { setUser, user } = useAuth()
+    const { setUser, user, userCelebrations } = useAuth()
     const token = getAccessToken();
-
-    const [userCelebrations, setUserCelebrations] = useState([])
 
 
     if(!token) {
         setUser(undefined)
     }
-
-    useEffect(() => {
-        if(!user) {
-            replace("/")
-        }
-    }, [user, replace])
-
-    useEffect(() => {
-        getUserCelebrations(user._id)
-        .then((userCelebrations) => {
-            setUserCelebrations(userCelebrations)
-        })
-    }, [user])
 
     const userProfile = () => {
         if(user) {
