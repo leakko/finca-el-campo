@@ -1,0 +1,48 @@
+.HomePage {
+
+    .goToCalendar {
+        padding: 25px 0;
+        background-color: rgba(50, 50, 50);
+
+        Button {
+            color: rgb(53, 52, 52);
+            font-weight: bold;
+            padding: 10px 100px;
+        }
+    }
+
+    .awards {
+        margin-top: 50px;
+
+        h2 {
+            margin-bottom: 25px;
+        }
+        img {
+            width: 300px;
+        }
+    }
+
+    .carousel-caption {
+        background-color: rgba($color: #5f5d5d, $alpha: 0.7);
+        padding-bottom: 30px;
+    }
+
+    @media (min-width: 800px) {
+        .carousel-item {
+            max-height: 60vh;
+            object-position: center;
+            object-fit: cover;
+    
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .awards {
+            img {
+                width: 400px;
+            }
+        }
+    }
+}
