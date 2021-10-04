@@ -11,6 +11,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./MyCalendar.scss"
+import { dateParser } from "../../variousFunctions/parseDate"; 
 
 const locales = {
     "es": require("date-fns/locale/es"),
@@ -36,19 +37,35 @@ const MyCalendar = () => {
     const [error, setError] = useState(undefined);
 
     function handleAddEvent() {
-        createCelebration({date: newEvent.start, client: user? user._id : undefined})
-        .then((response) => {
-            if(response.errorMessage) {
-                setError(response.errorMessage)
-            } else {
-                setNewEvent({
-                    title: "Ocupado",
-                    allDay: true,
-                    start: "",
-                    end: ""
-                })
-            }
-        })  
+        let now = new Date()
+        let celebration
+        let newCelebration = new Date(newEvent.start)
+        let parsedNewCelebration = dateParser(newCelebration)
+        if(allEvents.some((event) => {
+            celebration = new Date(event.start)
+            return dateParser(celebration) === parsedNewCelebration
+        })) {
+            setError("Fecha ocupada, seleccione otra")
+        }  else if (
+            newCelebration <= now.getTime() + (6*30*24*60*60*1000) //Not accepting new events closer than 6 months
+        ) {
+            setError("Es una fecha demasiado temprana, necesitamos al menos 6 meses para preparar todo")
+        }  else {
+            setError(null)
+            createCelebration({date: newEvent.start, client: user? user._id : undefined})
+            .then((response) => {
+                if(response.errorMessage) {
+                    setError(response.errorMessage)
+                } else {
+                    setNewEvent({
+                        title: "Ocupado",
+                        allDay: true,
+                        start: "",
+                        end: ""
+                    })
+                }
+            })
+        }
     }
 
     useEffect(() => {
