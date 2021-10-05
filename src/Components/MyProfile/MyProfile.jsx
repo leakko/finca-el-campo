@@ -3,6 +3,7 @@ import { getAccessToken } from '../../store/AccessTokenStore';
 import { dateParser } from "../../variousFunctions/parseDate";
 import celebrationImg from "../../Assets/celebration.jpg"
 import { Card, Button } from "react-bootstrap";
+import "./MyProfile.scss"
 
 const MyProfile = () => {
     const { setUser, user, userCelebrations } = useAuth()
@@ -47,9 +48,9 @@ const MyProfile = () => {
                         </>
                     }
                 </div>
-                <div className="d-flex flex-column align-items-center container">
+                <div className="celebrations d-flex flex-column align-items-center container">
                     <div className="row">
-                        <h1>Tus celebraciones</h1>
+                        <h1 className="title">Tus celebraciones</h1>
                             {userCelebrations ? 
                                 userCelebrations.map((celebration) => {
                                     let newDate = new Date(celebration.date)
@@ -76,7 +77,7 @@ const MyProfile = () => {
                 <h2>Inicia sesión para acceder a tu perfil</h2>
             }
             
-            <p style={{fontSize: "0.8rem"}}><a href='https://www.freepik.es/vectores/banner'>Vector de Banner creado por pch.vector - www.freepik.es</a></p>
+            <p className="copyright" style={{fontSize: "0.8rem"}}><a href='https://www.freepik.es/vectores/banner'>Vector de Banner creado por pch.vector - www.freepik.es</a></p>
         </div>
     );
 };

@@ -39,7 +39,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="goToCalendar">
-                <Link to="/calendar"><Button variant="light">Reserva fecha</Button></Link>
+                <Link to="/calendar"><Button variant="light">RESERVA FECHA</Button></Link>
             </div>
             <Container>
                 <div className="awards">

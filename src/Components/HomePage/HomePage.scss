@@ -25,6 +25,7 @@
     .carousel-caption {
         background-color: rgba($color: #5f5d5d, $alpha: 0.7);
         padding-bottom: 30px;
+        border-radius: 15px;
     }
 
     @media (min-width: 800px) {
@@ -40,6 +41,8 @@
         }
 
         .awards {
+            margin-bottom: 50px;
+            
             img {
                 width: 400px;
             }

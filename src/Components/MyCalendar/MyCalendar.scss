@@ -1,0 +1,83 @@
+.MyCalendar {
+    .title-new-celebration {
+        margin-top: 25px;
+    }
+
+    .separator {
+        margin-top: 50px;
+    }
+
+    .calendarSection {
+        background-color: rgba(170, 162, 162, 0.1);
+        .calendar {
+            width: 90vw;
+            padding: 10px 0 50px 0;
+            margin-left: 5vw !important;
+            margin-top: 0 !important;
+            align-items: center;
+            
+        }
+
+        .ocupadas {
+            color: white;
+            background-color: rgb(53, 52, 52);
+            font-weight: bold;
+            padding: 10px 10vw;
+            border: 0px solid rgb(53, 52, 52);
+            margin-top: 25px;
+            width: 80vw;
+            max-width: 600px;
+        }
+
+        .separator {
+            padding: 15px 0;
+            background-color: rgba(50, 50, 50, 0.3);
+        }
+    }
+
+
+    .rbc-toolbar, .rbc-month-view {
+        max-width: 600px;
+    }
+
+    .rbc-row-segment {
+        display: flex;
+        justify-content: center;
+    }
+
+    .rbc-event {
+        padding: 15px 15px;
+        width: 15px
+    }
+
+    .date-picker {
+        button {
+            margin-top: 10px;
+        }
+
+        .error {
+            width: 90vw;
+            max-width: 400px;
+            margin: 15px auto 0 auto;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .rbc-toolbar-label {
+            margin-left: 50vw;
+        }
+    }
+
+    .react-datepicker-popper {
+        z-index: 100;
+        margin: 0 auto;
+        bottom: 100px;
+        inset: 0 0 0 0 !important;
+    }
+
+    .react-datepicker-ignore-onclickoutside, .form {
+        padding:10px;
+        border:0;
+        box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    }
+}
