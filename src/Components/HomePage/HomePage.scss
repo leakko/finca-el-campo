@@ -9,6 +9,12 @@
             font-weight: bold;
             padding: 10px 100px;
         }
+
+        @media (max-width: 575px) {
+            Button {
+                padding: 10px 50px;
+            }
+        }
     }
 
     .awards {
@@ -22,10 +28,22 @@
         }
     }
 
-    .carousel-caption {
-        background-color: rgba($color: #5f5d5d, $alpha: 0.7);
-        padding-bottom: 30px;
-        border-radius: 15px;
+    .carousel {
+        .carousel-caption {
+            background-color: rgba($color: #5f5d5d, $alpha: 0.7);
+            padding-bottom: 30px;
+            border-radius: 15px;
+        }
+
+        .carousel-item {
+            position: relative;
+        }
+
+        .carousel-img {
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+        }
     }
 
     @media (min-width: 800px) {

@@ -19,19 +19,19 @@ const HomePage = () => {
                 </div>
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                    <img src={exteriores} className="d-block w-100" alt="" />
+                    <div style={{backgroundImage: `url(${exteriores})`}} className=" carousel-img d-block w-100" alt="" />
                     <div className="carousel-caption d-none d-md-block">
                         <h2>Gran finca con vistas a la bahía</h2>
                     </div>
                     </div>
                     <div className="carousel-item">
-                    <img src={interiores} className="d-block w-100" alt="" />
+                    <div style={{backgroundImage: `url(${interiores})`}} className=" carousel-img d-block w-100" alt="" />
                     <div className="carousel-caption d-none d-md-block">
                         <h2>Interiores espectaculares</h2>
                     </div>
                     </div>
                     <div className="carousel-item">
-                    <img src={bodegon} className="d-block w-100" alt="" />
+                    <div style={{backgroundImage: `url(${bodegon})`}} className=" carousel-img d-block w-100" alt="" />
                     <div className="carousel-caption d-none d-md-block">
                         <h2>Contrata nuestros servicios extra</h2>
                     </div>

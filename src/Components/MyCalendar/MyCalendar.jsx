@@ -3,7 +3,7 @@ import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import React, { useState, useEffect} from "react";
-import { Button, Alert, Form } from "react-bootstrap"
+import { Button, Alert } from "react-bootstrap"
 import { useAuth } from "../../hooks/useAuth";
 import { Calendar, dateFnsLocalizer} from "react-big-calendar";
 import { getCelebrations, createCelebration } from "../../services/CelebrationsService"
