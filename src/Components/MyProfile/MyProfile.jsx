@@ -51,7 +51,7 @@ const MyProfile = () => {
                 <div className="celebrations d-flex flex-column align-items-center container">
                     <div className="row">
                         <h1 className="title">Tus celebraciones</h1>
-                            {userCelebrations ? 
+                            {userCelebrations && userCelebrations.length > 0 ? 
                                 userCelebrations.map((celebration) => {
                                     let newDate = new Date(celebration.date)
                                     return (

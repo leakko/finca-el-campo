@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
@@ -6,7 +7,7 @@ import React, { useState, useEffect} from "react";
 import { Button, Alert } from "react-bootstrap"
 import { useAuth } from "../../hooks/useAuth";
 import { Calendar, dateFnsLocalizer} from "react-big-calendar";
-import { getCelebrations, createCelebration } from "../../services/CelebrationsService"
+import { getCelebrations } from "../../services/CelebrationsService"
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -25,7 +26,8 @@ const localizer = dateFnsLocalizer({
 });
 
 const MyCalendar = () => {
-    const { user } = useAuth();
+    let history = useHistory();
+    const { paymentStatus } = useAuth();
 
     const [newEvent, setNewEvent] = useState({
         title: "Ocupado",
@@ -37,6 +39,7 @@ const MyCalendar = () => {
     const [error, setError] = useState(undefined);
 
     function handleAddEvent() {
+
         let now = new Date()
         let celebration
         let newCelebration = new Date(newEvent.start)
@@ -54,21 +57,11 @@ const MyCalendar = () => {
             newCelebration <= now.getTime() + (15*24*60*60*1000) //Not accepting new events closer than 15 days
         ) {
             setError("Es una fecha demasiado temprana, necesitamos al menos 15 días para preparar todo")
+        } else if (newEvent.start === "") {
+            setError("Selecciona una fecha")
         } else {
             setError(null)
-            createCelebration({date: newEvent.start, client: user? user._id : undefined})
-            .then((response) => {
-                if(response.errorMessage) {
-                    setError(response.errorMessage)
-                } else {
-                    setNewEvent({
-                        title: "Ocupado",
-                        allDay: true,
-                        start: "",
-                        end: ""
-                    })
-                }
-            })
+            history.push(`/payment/${newEvent.start}`)
         }
     }
 
@@ -89,16 +82,17 @@ const MyCalendar = () => {
 
     return (
         <div className="MyCalendar">
-            <h2 className="title-new-celebration">Celebra tu boda con nosotros</h2>
+            <h2 className="title-new-celebration">Selecciona tu fecha</h2>
             <div className="date-picker">
-                <DatePicker className="form" placeholderText="Selecciona tu fecha" selected={newEvent.start} onChange={(date) => setNewEvent({ ...newEvent, start: date, end: date })} />
+                <DatePicker className="form" placeholderText="Haz click aquí" selected={newEvent.start} onChange={(date) => setNewEvent({ ...newEvent, start: date, end: date })} />
                 <Button variant="dark" stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
                     Reservar
                 </Button>
+                {paymentStatus && <Alert className="successPayment" variant="success">{paymentStatus}</Alert>}
                 {error && <Alert className="error" variant="danger">{error}</Alert>}
             </div>
             <div className="calendarSection">
-                <h3 className="separator"></h3>
+                <h3 className="separator">{" "}</h3>
                 <Button className="ocupadas" variant="light">Fechas ya ocupadas</Button>
                 <Calendar className="calendar" localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" views={{ month: true}} style={{ height: 500, margin: "50px" }} />
             </div>

@@ -1,4 +1,4 @@
-export const dateParser = (date) => {
+export const dateParser = (date, returnDay = true) => {
     let day = date.getDay()
     let parsedDay = ""
     switch (day) {
@@ -74,6 +74,8 @@ export const dateParser = (date) => {
 
     let year = date.getFullYear();
 
-    return `${parsedDay} ${monthDay} de ${parsedMonth} de ${year}`
+    let parsedDate = `${returnDay ? parsedDay : ""} ${monthDay} de ${parsedMonth} de ${year}`
+
+    return parsedDate
 
 }

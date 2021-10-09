@@ -17,6 +17,7 @@ export default function AuthContextProvider({ children }) {
   const [token, setToken] = useState(getAccessToken());
   const [user, setUser] = useState();
   const [error, setError] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState(null);
   const [userCelebrations, setUserCelebrations] = useState()
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function AuthContextProvider({ children }) {
         getCurrentUser()
           // if OK, setUser
           .then((user) => {
+            setPaymentStatus(null)
             setError(null)
             setUser(user)
             getUserCelebrations(user._id)
@@ -60,6 +62,6 @@ export default function AuthContextProvider({ children }) {
     setUserCelebrations(undefined)
   }
 
-  const value = { user, setUser, token, login: loginFn, logout, error, setError, setAccessToken, setToken, userCelebrations };
+  const value = { user, setUser, token, login: loginFn, logout, error, setError, setAccessToken, setToken, userCelebrations, paymentStatus, setPaymentStatus };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
