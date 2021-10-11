@@ -159,9 +159,9 @@ const CheckoutForm = () => {
 const Payment = () => {
     return (
         <Elements stripe={stripePromise}>
-            <Container className="p-4 Payment">
+            <Container className="p-3 Payment">
                 <Row className="justify-content-center">
-                    <Col xs={10} lg={4}>
+                    <Col xs={12} lg={4}>
                         <CheckoutForm />
                     </Col>
                 </Row>
